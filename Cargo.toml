@@ -1,0 +1,90 @@
+[package]
+name = "zcash-numi-sdk"
+version = "0.1.0"
+edition = "2021"
+authors = ["Zcash Numi SDK Contributors"]
+description = "A comprehensive Rust SDK for building Zcash decentralized applications"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/your-org/zcash-numi-sdk"
+documentation = "https://docs.rs/zcash-numi-sdk"
+keywords = ["zcash", "blockchain", "cryptocurrency", "privacy", "dapp", "sdk"]
+categories = ["cryptography", "blockchain"]
+
+[dependencies]
+# Core Zcash Rust crates
+zcash_primitives = "0.26"
+zcash_client_backend = { version = "0.21", features = ["lightwalletd-tonic"] }
+zcash_client_sqlite = "0.19"
+zcash_keys = { version = "0.12", features = ["orchard", "transparent-inputs"] }
+zcash_address = "0.10"
+zcash_transparent = "0.6"
+orchard = "0.9"
+zip32 = "0.2"
+zip321 = "0.6"
+rusqlite = { version = "0.37", features = ["bundled"] }  # Match zcash_client_sqlite version
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+thiserror = "1.0"
+anyhow = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# HTTP client for RPC calls
+reqwest = { version = "0.11", features = ["json"] }
+
+# gRPC client for lightwalletd
+tonic = "0.14"
+prost = "0.12"
+
+# Utilities
+hex = "0.4"
+bs58 = "0.5"
+base64 = "0.21"
+dirs = "5.0"
+getrandom = { version = "0.2", features = ["std"] }
+zcash_protocol = "0.7.1"
+rand = "0.8"
+secrecy = "0.8"
+
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockall = "0.12"
+
+[features]
+default = ["rpc-client"]
+rpc-client = []  # Full node RPC support (always enabled)
+light-client = []  # Light client gRPC support
+
+[lib]
+name = "zcash_numi_sdk"
+path = "src/lib.rs"
+
+[[example]]
+name = "basic_wallet"
+path = "examples/basic_wallet.rs"
+
+[[example]]
+name = "send_transaction"
+path = "examples/send_transaction.rs"
+
+[[example]]
+name = "light_client"
+path = "examples/light_client.rs"
+
+[[bin]]
+name = "zcash-cli"
+path = "src/bin/zcash-cli.rs"
+
